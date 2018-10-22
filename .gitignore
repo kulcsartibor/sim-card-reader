@@ -1,0 +1,36 @@
+**.gradle/
+**build/
+**out/
+**classes
+.designer/
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### Generated source codes ###
+**generatedsources
+
+
+
+### Atomikos test files
+*.epoch
+*.log
+*.lck
+
+### Archives
+*.gz
+rocam-otacs-web/src/main/resources/AppWidgetset.gwt.xml
+gradle/
+**/target/
