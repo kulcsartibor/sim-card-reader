@@ -16,7 +16,7 @@ import java.util.List;
  * @author trovo.st@gmail.com
  * 2018-10-20
  */
-public class SimReaderApp
+public class SimImsiWriter
 {
 
 	public static void main(String[] args) throws CardException, IOException
@@ -32,18 +32,25 @@ public class SimReaderApp
 		CardChannel cardChannel = connection.getBasicChannel();
 
 		ResponseAPDU responseApdu;
+
 		responseApdu = cardChannel.transmit(new CommandAPDU(0xA0, 0xA4, 0x00, 0x00, new byte[] { 0x3F, 0x00 }));
+		System.out.println(DatatypeConverter.printHexBinary(responseApdu.getBytes()));
+		responseApdu = cardChannel.transmit(new CommandAPDU(0xA0, 0xF2, 0x00, 0x00, 0x16));
 		System.out.println(DatatypeConverter.printHexBinary(responseApdu.getBytes()));
 		responseApdu = cardChannel.transmit(new CommandAPDU(0xA0, 0xA4, 0x00, 0x00, new byte[] { 0x7F, 0x20 }));
 		System.out.println(DatatypeConverter.printHexBinary(responseApdu.getBytes()));
 		responseApdu = cardChannel.transmit(new CommandAPDU(0xA0, 0xA4, 0x00, 0x00, new byte[] { 0x6F, 0x07 }));
 		System.out.println(DatatypeConverter.printHexBinary(responseApdu.getBytes()));
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int offset = 0;
+		responseApdu = cardChannel.transmit(new CommandAPDU(0xA0, 0x20, 0x00, 0x02,
+			new byte[] { //0x08,
+				0x36, 0x33, 0x35, 0x34,
+				(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF }));
 
-		responseApdu = cardChannel.transmit(new CommandAPDU(0xA0, 0xB0, 0x00, 0x00, 0x09));
-		byte[] imsi = responseApdu.getData();
+		System.out.println(DatatypeConverter.printHexBinary(responseApdu.getBytes()));
+
+		responseApdu = cardChannel.transmit(new CommandAPDU(0xA0, 0xD6, 0x00, 0x00, DatatypeConverter.parseHexBinary("09082923016400843998")));
+		byte[] imsi = responseApdu.getBytes();
 		System.out.print(DatatypeConverter.printHexBinary(imsi));
 
 
